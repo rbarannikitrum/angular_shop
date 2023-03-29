@@ -1,0 +1,74 @@
+@use '../../../styles/color-variables.scss' as colorVar;
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 24px;
+  width: 900px;
+  .wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    .dropdown {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      label {
+        color: #434652;
+      }
+      select {
+        padding: 6px 8px;
+        border-color: #d0d3da;
+        border-radius: 4px;
+      }
+    }
+    .page__block {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      label {
+        color: #434652;
+      }
+      input {
+        width: 42px;
+        height: 32px;
+        border: 1px solid #d8dae0;
+        border-radius: 4px;
+        text-align: center;
+      }
+      span {
+        color: #bcbfcc;
+      }
+    }
+    .nav__buttons {
+      display: flex;
+      .control__button {
+        height: 32px;
+        width: 32px;
+        padding: 4px, 8px, 4px, 8px;
+        color: #aaafbd;
+        background: #f8f8fa;
+        border: 1px solid #d0d3da;
+        cursor: pointer;
+      }
+      .back {
+        border-radius: 4px 0 0 4px;
+      }
+      .forward {
+        border-radius: 0 4px 4px 0;
+      }
+    }
+  }
+  .page__button {
+    padding: 8px, 20px, 8px, 20px;
+    border-radius: 8px;
+    height: 40px;
+    border: none;
+    background: colorVar.$activeColor;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    line-height: 24px;
+  }
+}

@@ -1,8 +1,7 @@
-@use '../../styles/color-variables.scss' as colorVar;
+@use '../../../styles/color-variables.scss' as colorVar;
 .wrapper {
   display: flex;
   flex-direction: column;
-  padding: 100px;
   gap: 8px;
   border-radius: 24px;
 }

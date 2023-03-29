@@ -6,7 +6,7 @@
   </ng-container>
 </div>
 
-<<ng-template #separateButton let-buttonData>
+<ng-template #separateButton let-buttonData>
   <button [ngClass]="{ active: buttonData.isActive }" (click)="navigateAndChange(buttonData.route)">
     <img [src]="buttonData.iconPath" />
     <span>{{ buttonData.labelText }} </span>

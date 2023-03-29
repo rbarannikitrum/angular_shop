@@ -3,7 +3,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
-import { NavButton } from '../dto/nav-button.dto';
+import { NavButton } from '../../dto/nav-button.dto';
 
 @Component({
   selector: 'navbar',
