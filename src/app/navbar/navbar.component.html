@@ -1,0 +1,14 @@
+<div class="wrapper">
+  <ng-container *ngFor="let button of buttonsArray"
+    ><ng-container
+      *ngTemplateOutlet="separateButton; context: { $implicit: button }"
+    ></ng-container>
+  </ng-container>
+</div>
+
+<<ng-template #separateButton let-buttonData>
+  <button [ngClass]="{ active: buttonData.isActive }" (click)="navigateAndChange(buttonData.route)">
+    <img [src]="buttonData.iconPath" />
+    <span>{{ buttonData.labelText }} </span>
+  </button>
+</ng-template>
