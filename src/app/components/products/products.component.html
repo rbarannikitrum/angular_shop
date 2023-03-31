@@ -22,7 +22,7 @@
   </div>
   <button class="page__button">Добавить акцию</button>
 
-  <table>
+  <table *ngIf="this.products.length">
     <tr>
       <th>
         <input type="checkbox" (click)="changeMainCheckbox($event)" />
@@ -63,4 +63,6 @@
       <span class="delete__label">Удалить</span>
     </button>
   </div>
+
+  <span *ngIf="!this.products.length" class="no_items">Здесь пока нет товаров</span>
 </div>
