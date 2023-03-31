@@ -1,6 +1,7 @@
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { Product } from 'src/app/dto/product.dto';
+import { ServerResponse } from 'src/app/dto/server-response';
 import { ProductsService } from 'src/app/services/products.service';
 
 @Component({
@@ -28,9 +29,9 @@ export class ProductsComponent implements OnInit, DoCheck {
   public isDeleteOpened = false;
 
   ngOnInit(): void {
-    this.productsService.getProducts().subscribe((res: any) => {
+    this.productsService.getProducts().subscribe((res: ServerResponse) => {
       this.products = res.data;
-      console.log(res.data);
+      console.log(res);
       this.maxPage = Math.round(this.products.length / this.itemsOnPageNumber);
     });
   }

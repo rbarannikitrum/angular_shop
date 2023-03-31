@@ -1,4 +1,6 @@
 @use '../../../styles/color-variables.scss' as colorVar;
+@import '../../../styles/mixins.scss';
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -24,9 +26,7 @@ button {
   }
   span {
     font-size: 14px;
-    line-height: 20px;
-    font-weight: 500;
-    font-family: 'Inter', sans-serif;
+    @include defaultFont;
   }
 }
 
