@@ -26,13 +26,14 @@ button {
     font-size: 14px;
     line-height: 20px;
     font-weight: 500;
+    font-family: 'Inter', sans-serif;
   }
 }
 
 .active {
   background: colorVar.$activeColor;
   img {
-    filter: brightness(0) invert(1);
+    filter: invert(1);
   }
   span {
     color: white;

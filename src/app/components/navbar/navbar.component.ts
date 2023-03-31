@@ -10,6 +10,8 @@ import { NavButton } from '../../dto/nav-button.dto';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
+
+// ToDo: покакать
 export class NavbarComponent implements OnDestroy {
   public buttonsArray: Array<NavButton> = [
     {
@@ -84,7 +86,7 @@ export class NavbarComponent implements OnDestroy {
     });
   }
 
-  public changeButton() {
+  private changeButton() {
     this.buttonsArray.forEach((el: NavButton) => {
       if (this.router.url.includes(el.route)) {
         el.isActive = true;

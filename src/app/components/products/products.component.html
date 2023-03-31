@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="dropdown">
       <label for="menuitems">Показывать</label>
-      <select name="menuitems" id="menuitems">
+      <select name="menuitems" id="menuitems" [(ngModel)]="itemsOnPageNumber">
         <option value="10">10</option>
         <option value="20">20</option>
         <option value="30">30</option>
@@ -11,32 +11,56 @@
 
     <div class="page__block">
       <label for="page_number">Страница</label>
-      <input value="1" />
-      <span>из 1</span>
+      <input value="1" [(ngModel)]="pageNumber" />
+      <span>из {{ maxPage }}</span>
     </div>
 
     <div class="nav__buttons">
-      <button class="control__button back"><</button>
-      <button class="control__button forward">></button>
+      <button class="control__button back" (click)="decrementPage()"><</button>
+      <button class="control__button forward" (click)="incrementPage()">></button>
     </div>
   </div>
   <button class="page__button">Добавить акцию</button>
 
   <table>
     <tr>
-      <th>Company</th>
-      <th>Contact</th>
-      <th>Country</th>
+      <th>
+        <input type="checkbox" (click)="changeMainCheckbox($event)" />
+      </th>
+      <th>Компания</th>
+      <th>Товар</th>
+      <th>Объем</th>
+      <th>Цена</th>
     </tr>
-    <tr>
-      <td>Alfreds Futterkiste</td>
-      <td>Maria Anders</td>
-      <td>Germany</td>
-    </tr>
-    <tr>
-      <td>Centro comercial Moctezuma</td>
-      <td>Francisco Chang</td>
-      <td>Mexico</td>
+    <tr
+      *ngFor="
+        let item of products
+          | slice
+            : this.itemsOnPageNumber * (this.pageNumber - 1)
+            : this.pageNumber * this.itemsOnPageNumber
+      "
+    >
+      <td>
+        <input
+          type="checkbox"
+          [checked]="this.mainCheckboxState"
+          (change)="setRemoving(item.id, $event)"
+        />
+      </td>
+
+      <td>{{ item.brand.name }}</td>
+      <td style="max-width: 300px">{{ item.name }}</td>
+      <td>{{ item.volume }}</td>
+      <td>{{ item.price | currency : 'RUB' }}</td>
     </tr>
   </table>
+
+  <div *ngIf="this.idList.length && isDeleteOpened" class="delete__container">
+    <img src="../../../assets/close.svg" class="close__button" (click)="isDeleteOpened = false" />
+    <span class="items__length">Количество выбранных позиций: {{ this.idList.length }}</span>
+    <button (click)="deleteItems()">
+      <img src="../../../assets/remove.svg" />
+      <span class="delete__label">Удалить</span>
+    </button>
+  </div>
 </div>

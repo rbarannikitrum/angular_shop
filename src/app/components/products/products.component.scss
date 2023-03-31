@@ -16,6 +16,9 @@
       align-items: center;
       label {
         color: #434652;
+        font-family: 'Inter', sans-serif;
+        font-weight: 400;
+        line-height: 20px;
       }
       select {
         padding: 6px 8px;
@@ -29,6 +32,9 @@
       align-items: center;
       label {
         color: #434652;
+        font-family: 'Inter', sans-serif;
+        font-weight: 400;
+        line-height: 20px;
       }
       input {
         width: 42px;
@@ -39,6 +45,9 @@
       }
       span {
         color: #bcbfcc;
+        font-family: 'Inter', sans-serif;
+        font-weight: 400;
+        line-height: 20px;
       }
     }
     .nav__buttons {
@@ -54,6 +63,7 @@
       }
       .back {
         border-radius: 4px 0 0 4px;
+        border-right: none;
       }
       .forward {
         border-radius: 0 4px 4px 0;
@@ -70,5 +80,79 @@
     font-size: 16px;
     cursor: pointer;
     line-height: 24px;
+  }
+
+  table {
+    border-collapse: collapse;
+    th {
+      padding: 10px 8px;
+      text-align: start;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      line-height: 24px;
+      color: #737680;
+    }
+    tr {
+      border-top: 1px solid #ebecef;
+      input[type='checkbox'] {
+        accent-color: colorVar.$activeColor;
+        height: 16px;
+        width: 16px;
+        cursor: pointer;
+      }
+      td {
+        padding: 10px 8px 10px 8px;
+        color: #434652;
+        font-family: 'Inter', sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+  }
+  .delete__container {
+    position: relative;
+    margin: 0 auto;
+    width: 475px;
+    padding: 16px 64px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    box-shadow: 0px 4px 8px 0px #4c5d704d;
+    .close__button {
+      width: 12px;
+      height: 12px;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+    .items__length {
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      letter-spacing: 0px;
+      text-align: center;
+      color: #00000066;
+    }
+    button {
+      border: 0;
+      outline: 0;
+      background: white;
+      display: flex;
+      gap: 9px;
+      align-items: center;
+      justify-content: center;
+      .delete__label {
+        font-family: Inter;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 24px;
+        letter-spacing: 0px;
+        color: #00000066;
+      }
+    }
   }
 }
