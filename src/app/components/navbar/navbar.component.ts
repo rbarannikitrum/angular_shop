@@ -10,8 +10,6 @@ import { NavButton } from '../../dto/nav-button.dto';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-
-// ToDo: покакать
 export class NavbarComponent implements OnDestroy {
   public buttonsArray: Array<NavButton> = [
     {
