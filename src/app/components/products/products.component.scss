@@ -1,4 +1,5 @@
 @use '../../../styles/color-variables.scss' as colorVar;
+@import '../../../styles/mixins.scss';
 .container {
   display: flex;
   flex-direction: column;
@@ -15,10 +16,8 @@
       gap: 8px;
       align-items: center;
       label {
-        color: #434652;
-        font-family: 'Inter', sans-serif;
-        font-weight: 400;
-        line-height: 20px;
+        $buttonColor: #434652;
+        @include defaultFont;
       }
       select {
         padding: 6px 8px;
@@ -31,10 +30,8 @@
       gap: 8px;
       align-items: center;
       label {
-        color: #434652;
-        font-family: 'Inter', sans-serif;
-        font-weight: 400;
-        line-height: 20px;
+        $buttonColor: #434652;
+        @include defaultFont;
       }
       input {
         width: 42px;
@@ -45,9 +42,7 @@
       }
       span {
         color: #bcbfcc;
-        font-family: 'Inter', sans-serif;
-        font-weight: 400;
-        line-height: 20px;
+        @include defaultFont;
       }
     }
     .nav__buttons {
@@ -87,9 +82,7 @@
     th {
       padding: 10px 8px;
       text-align: start;
-      font-family: 'Inter', sans-serif;
-      font-weight: 500;
-      line-height: 24px;
+      @include defaultFont;
       color: #737680;
     }
     tr {
@@ -102,11 +95,9 @@
       }
       td {
         padding: 10px 8px 10px 8px;
-        color: #434652;
-        font-family: 'Inter', sans-serif;
-        font-weight: 400;
+        color: colorVar.$buttonColor;
+        @include defaultFont;
         font-size: 14px;
-        line-height: 20px;
       }
     }
   }
@@ -128,13 +119,11 @@
       top: 10px;
     }
     .items__length {
-      font-family: Inter;
       font-size: 16px;
-      font-weight: 400;
-      line-height: 24px;
+      @include defaultFont;
       letter-spacing: 0px;
       text-align: center;
-      color: #00000066;
+      color: colorVar.$spanColor;
     }
     button {
       cursor: pointer;
@@ -146,22 +135,17 @@
       align-items: center;
       justify-content: center;
       .delete__label {
-        font-family: Inter;
         text-align: center;
         font-size: 16px;
-        font-weight: 500;
-        line-height: 24px;
+        @include defaultFont;
         letter-spacing: 0px;
-        color: #00000066;
+        color: colorVar.$buttonColor;
       }
     }
   }
   .no_items {
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
+    @include defaultFont;
     font-size: 14px;
-    line-height: 20px;
     text-align: center;
   }
 }

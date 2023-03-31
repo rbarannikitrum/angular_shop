@@ -1,5 +1,5 @@
 export interface Product {
-  brand: { id: string; name: string };
+  brand: { icon?: string; id: string; name: string };
   codeFrom1C: string;
   id: string;
   images: Array<string>;
