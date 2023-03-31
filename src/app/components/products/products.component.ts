@@ -75,5 +75,6 @@ export class ProductsComponent implements OnInit, DoCheck {
 
   public deleteItems() {
     this.products = this.products.filter((el) => !this.idList.includes(el.id));
+    this.idList = [];
   }
 }
