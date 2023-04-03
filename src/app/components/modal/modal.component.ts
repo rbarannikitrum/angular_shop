@@ -1,5 +1,6 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ActiveItem } from 'src/app/dto/active-item.dto';
 
 @Component({
   selector: 'modal',
@@ -7,8 +8,5 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent {
-  @Input() companyName: string;
-  @Input() itemName: string;
-  @Input() value: string;
-  @Input() price: number;
+  @Input() activeItem: ActiveItem;
 }

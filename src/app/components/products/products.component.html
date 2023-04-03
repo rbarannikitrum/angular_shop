@@ -39,9 +39,11 @@
             : this.itemsOnPageNumber * (this.pageNumber - 1)
             : this.pageNumber * this.itemsOnPageNumber
       "
+      (click)="setModal(item.brand.name, item.name, item.volume, item.price)"
     >
       <td>
         <input
+          stopPropagation
           type="checkbox"
           [checked]="this.mainCheckboxState"
           (change)="setRemoving(item.id, $event)"
@@ -66,3 +68,5 @@
 
   <span *ngIf="!this.products.length" class="no_items">Здесь пока нет товаров</span>
 </div>
+
+<modal *ngIf="this.isModalOpened" [activeItem]="activeItem"></modal>

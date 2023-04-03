@@ -1,5 +1,6 @@
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, DoCheck, OnInit } from '@angular/core';
+import { ActiveItem } from 'src/app/dto/active-item.dto';
 import { Product } from 'src/app/dto/product.dto';
 import { ServerResponse } from 'src/app/dto/server-response';
 import { ProductsService } from 'src/app/services/products.service';
@@ -27,6 +28,10 @@ export class ProductsComponent implements OnInit, DoCheck {
   public idList: Array<string> = [];
 
   public isDeleteOpened = false;
+
+  public isModalOpened = false;
+
+  public activeItem: ActiveItem;
 
   ngOnInit(): void {
     this.productsService.getProducts().subscribe((res: ServerResponse) => {
@@ -60,6 +65,7 @@ export class ProductsComponent implements OnInit, DoCheck {
   }
 
   public setRemoving(id: string, event: any) {
+    event.stopPropagation();
     this.isDeleteOpened = true;
     const currentItem = this.idList.findIndex((item) => item === id);
     console.log(currentItem);
@@ -77,5 +83,15 @@ export class ProductsComponent implements OnInit, DoCheck {
   public deleteItems() {
     this.products = this.products.filter((el) => !this.idList.includes(el.id));
     this.idList = [];
+  }
+
+  public setModal(brandName: string, itemName: string, volume: string, price: number) {
+    this.activeItem = {
+      brandName: brandName,
+      itemName: itemName,
+      volume: volume,
+      price: price
+    };
+    this.isModalOpened = true;
   }
 }

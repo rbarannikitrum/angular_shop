@@ -6,21 +6,21 @@
   <div class="input__container">
     <div class="input__item">
       <span>Компания</span>
-      <input [value]="companyName" />
+      <input [value]="activeItem.brandName" />
     </div>
     <div class="input__item">
       <span>Товар</span>
-      <input [value]="itemName" />
+      <input [value]="activeItem.itemName" />
     </div>
 
     <div class="input__item">
       <span>Объем</span>
-      <input [value]="value" />
+      <input [value]="activeItem.volume" />
     </div>
 
     <div class="input__item">
       <span>Цена</span>
-      <input [value]="price" />
+      <input [value]="activeItem.price" />
     </div>
   </div>
 </form>
