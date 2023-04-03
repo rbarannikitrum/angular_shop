@@ -8,9 +8,9 @@ import { ServerResponse } from '../dto/server-response';
 export class ProductsService {
   constructor(private http: HttpClient) {}
 
-  private baseUrl = 'https://1edb18d7-a3e5-4b2f-8b15-97ad3e779cf8.mock.pstmn.io/';
+  private baseUrl = 'http://localhost:3001';
 
   public getProducts() {
-    return this.http.get<ServerResponse>(this.baseUrl + 'products');
+    return this.http.get<ServerResponse>(this.baseUrl + '/products');
   }
 }

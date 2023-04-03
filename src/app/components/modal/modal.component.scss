@@ -1,0 +1,54 @@
+@use '../../../styles/color-variables.scss' as colorVar;
+@import '../../../styles/mixins.scss';
+form {
+  width: fit-content;
+  .buttons {
+    display: flex;
+    padding: 27px 40px;
+    gap: 16px;
+    border-bottom: 1px solid #d0d3da;
+    button {
+      font-size: 16px;
+      padding: 12px 103px;
+      @include defaultFont;
+      border-radius: 4px;
+      cursor: pointer;
+      background: white;
+    }
+    .remove {
+      border: 1px solid #d0d3da;
+    }
+    .save {
+      color: white;
+      background: colorVar.$activeColor;
+      border: none;
+    }
+  }
+  .input__container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 40px;
+    gap: 8px;
+    .input__item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      span {
+        @include defaultFont;
+        font-weight: 500;
+        font-size: 14px;
+      }
+      input {
+        height: 40px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid #d0d3da;
+        outline: none;
+      }
+      input:focus {
+        border: 1px solid colorVar.$activeColor;
+      }
+    }
+  }
+}
