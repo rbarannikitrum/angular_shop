@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck, ElementRef, HostListener, OnInit } from '@angular/core';
 import { ActiveItem } from 'src/app/dto/active-item.dto';
 import { Product } from 'src/app/dto/product.dto';
 import { ServerResponse } from 'src/app/dto/server-response';
@@ -11,7 +11,7 @@ import { ProductsService } from 'src/app/services/products.service';
   styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent implements OnInit, DoCheck {
-  constructor(private productsService: ProductsService) {}
+  constructor(private productsService: ProductsService, private elRef: ElementRef) {}
 
   public products: Array<Product>;
 
@@ -32,6 +32,13 @@ export class ProductsComponent implements OnInit, DoCheck {
   public isModalOpened = false;
 
   public activeItem: ActiveItem;
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent): void {
+    if (!this.elRef.nativeElement.contains(event.target)) {
+      this.closeModal();
+    }
+  }
 
   ngOnInit(): void {
     this.productsService.getProducts().subscribe((res: ServerResponse) => {
@@ -93,5 +100,9 @@ export class ProductsComponent implements OnInit, DoCheck {
       price: price
     };
     this.isModalOpened = true;
+  }
+
+  public closeModal() {
+    this.isModalOpened = false;
   }
 }

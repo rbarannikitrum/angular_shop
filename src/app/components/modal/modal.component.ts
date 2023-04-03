@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActiveItem } from 'src/app/dto/active-item.dto';
 
 @Component({
@@ -9,4 +9,10 @@ import { ActiveItem } from 'src/app/dto/active-item.dto';
 })
 export class ModalComponent {
   @Input() activeItem: ActiveItem;
+
+  @Output() closeModalWindow = new EventEmitter<void>();
+
+  closeModal(): void {
+    this.closeModalWindow.emit();
+  }
 }

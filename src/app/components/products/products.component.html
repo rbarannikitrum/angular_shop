@@ -69,4 +69,8 @@
   <span *ngIf="!this.products.length" class="no_items">Здесь пока нет товаров</span>
 </div>
 
-<modal *ngIf="this.isModalOpened" [activeItem]="activeItem"></modal>
+<modal
+  *ngIf="this.isModalOpened"
+  [activeItem]="activeItem"
+  (closeModalWindow)="closeModal()"
+></modal>
