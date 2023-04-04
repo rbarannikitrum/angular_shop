@@ -1,5 +1,6 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, DoCheck, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { ActiveItem } from 'src/app/dto/active-item.dto';
 import { Product } from 'src/app/dto/product.dto';
@@ -11,14 +12,10 @@ import { ProductsService } from 'src/app/services/products.service';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
-export class ProductsComponent implements OnInit, DoCheck, OnDestroy {
+export class ProductsComponent implements OnInit, OnDestroy {
   constructor(private productsService: ProductsService, private elRef: ElementRef) {}
 
   public products: Array<Product>;
-
-  public pageNumber = 1;
-
-  public itemsOnPageNumber = 10;
 
   public maxPage = 1000;
 
@@ -31,6 +28,11 @@ export class ProductsComponent implements OnInit, DoCheck, OnDestroy {
   public isModalOpened = false;
 
   public activeItem: ActiveItem;
+
+  public settingsForm: FormGroup = new FormGroup({
+    itemsPerPage: new FormControl(10),
+    currentPage: new FormControl(1)
+  });
 
   private activeIndex = -1;
 
@@ -47,13 +49,13 @@ export class ProductsComponent implements OnInit, DoCheck, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ServerResponse) => {
         this.products = res.data;
-        this.maxPage = Math.ceil(this.products.length / this.itemsOnPageNumber);
+        this.maxPage = Math.ceil(
+          this.products.length / this.settingsForm.get('itemsPerPage')?.value
+        );
       });
-  }
-
-  ngDoCheck() {
-    if (this.products.length)
-      this.maxPage = Math.ceil(this.products.length / this.itemsOnPageNumber);
+    this.settingsForm.get('itemsPerPage')?.valueChanges.subscribe(() => {
+      this.maxPage = Math.ceil(this.products.length / this.settingsForm.get('itemsPerPage')?.value);
+    });
   }
 
   ngOnDestroy(): void {
@@ -62,11 +64,15 @@ export class ProductsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   public incrementPage() {
-    this.pageNumber < this.maxPage && this.pageNumber++;
+    let currentPage = this.settingsForm.get('currentPage')?.value;
+    this.settingsForm.get('currentPage')?.value < this.maxPage &&
+      this.settingsForm.controls['currentPage'].setValue(currentPage++);
   }
 
   public decrementPage() {
-    this.pageNumber > 1 && this.pageNumber--;
+    let currentPage = this.settingsForm.get('currentPage')?.value;
+    this.settingsForm.get('currentPage')?.value > 1 &&
+      this.settingsForm.controls['currentPage'].setValue(currentPage--);
   }
 
   public changeMainCheckbox(event: any) {

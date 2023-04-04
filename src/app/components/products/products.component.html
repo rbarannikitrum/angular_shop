@@ -1,8 +1,8 @@
 <div class="container">
-  <div class="wrapper">
+  <form class="wrapper" [formGroup]="settingsForm">
     <div class="dropdown">
       <label for="menuitems">Показывать</label>
-      <select name="menuitems" id="menuitems" [(ngModel)]="itemsOnPageNumber">
+      <select name="menuitems" id="menuitems" formControlName="itemsPerPage">
         <option value="10">10</option>
         <option value="20">20</option>
         <option value="30">30</option>
@@ -11,7 +11,7 @@
 
     <div class="page__block">
       <label for="page_number">Страница</label>
-      <input value="1" [(ngModel)]="pageNumber" />
+      <input value="1" formControlName="currentPage" />
       <span>из {{ maxPage }}</span>
     </div>
 
@@ -19,7 +19,7 @@
       <button class="control__button back" (click)="decrementPage()"><</button>
       <button class="control__button forward" (click)="incrementPage()">></button>
     </div>
-  </div>
+  </form>
   <button class="page__button" (click)="addItem()">Добавить акцию</button>
 
   <table *ngIf="this.products.length">
@@ -38,8 +38,10 @@
         let item;
         of: products
           | slice
-            : this.itemsOnPageNumber * (this.pageNumber - 1)
-            : this.pageNumber * this.itemsOnPageNumber
+            : this.settingsForm.get('itemsPerPage')?.value *
+                (this.settingsForm.get('currentPage')?.value - 1)
+            : this.settingsForm.get('currentPage')?.value *
+                this.settingsForm.get('itemsPerPage')?.value
       "
       (click)="setModal(item.brand.name, item.name, item.volume, item.price, i)"
     >
