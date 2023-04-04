@@ -1,5 +1,6 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, DoCheck, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Component, DoCheck, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { ActiveItem } from 'src/app/dto/active-item.dto';
 import { Product } from 'src/app/dto/product.dto';
 import { ServerResponse } from 'src/app/dto/server-response';
@@ -10,7 +11,7 @@ import { ProductsService } from 'src/app/services/products.service';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
-export class ProductsComponent implements OnInit, DoCheck {
+export class ProductsComponent implements OnInit, DoCheck, OnDestroy {
   constructor(private productsService: ProductsService, private elRef: ElementRef) {}
 
   public products: Array<Product>;
@@ -33,21 +34,31 @@ export class ProductsComponent implements OnInit, DoCheck {
 
   private activeIndex = -1;
 
+  private destroy$ = new Subject();
+
   @HostListener('document:keydown.escape', ['$event'])
   onEscKeydown() {
     this.closeModal();
   }
 
   ngOnInit(): void {
-    this.productsService.getProducts().subscribe((res: ServerResponse) => {
-      this.products = res.data;
-      this.maxPage = Math.ceil(this.products.length / this.itemsOnPageNumber);
-    });
+    this.productsService
+      .getProducts()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ServerResponse) => {
+        this.products = res.data;
+        this.maxPage = Math.ceil(this.products.length / this.itemsOnPageNumber);
+      });
   }
 
   ngDoCheck() {
     if (this.products.length)
       this.maxPage = Math.ceil(this.products.length / this.itemsOnPageNumber);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(null);
+    this.destroy$.complete();
   }
 
   public incrementPage() {
