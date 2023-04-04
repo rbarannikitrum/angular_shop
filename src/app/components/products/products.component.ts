@@ -33,11 +33,19 @@ export class ProductsComponent implements OnInit, DoCheck {
 
   public activeItem: ActiveItem;
 
+  private activeIndex = -1;
+
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent): void {
-    if (!this.elRef.nativeElement.contains(event.target)) {
+    const isClickedInside = this.elRef.nativeElement.contains(event.target);
+    if (!isClickedInside) {
       this.closeModal();
     }
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscKeydown(event: KeyboardEvent) {
+    this.closeModal();
   }
 
   ngOnInit(): void {
@@ -92,17 +100,50 @@ export class ProductsComponent implements OnInit, DoCheck {
     this.idList = [];
   }
 
-  public setModal(brandName: string, itemName: string, volume: string, price: number) {
+  public setModal(
+    brandName: string,
+    itemName: string,
+    volume: string,
+    price: number,
+    index: number
+  ) {
     this.activeItem = {
       brandName: brandName,
       itemName: itemName,
       volume: volume,
       price: price
     };
+    this.activeIndex = index;
     this.isModalOpened = true;
   }
 
   public closeModal() {
     this.isModalOpened = false;
+  }
+
+  public recieveData(event: any) {
+    if (this.activeIndex !== -1) {
+      this.products[this.activeIndex].brand.name = event.company;
+      this.products[this.activeIndex].name = event.item;
+      this.products[this.activeIndex].volume = event.volume;
+      this.products[this.activeIndex].price = event.price;
+    } else
+      this.products.push({
+        brand: { name: event.company },
+        name: event.item,
+        volume: event.volume,
+        price: event.price,
+        id: `${Math.random() * 1000000}`
+      });
+    this.closeModal();
+  }
+
+  public removeItem() {
+    this.products = this.products.filter((el, i) => i !== this.activeIndex);
+    this.closeModal();
+  }
+
+  public addItem() {
+    this.isModalOpened = true;
   }
 }

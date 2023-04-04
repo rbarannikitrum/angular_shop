@@ -20,7 +20,7 @@
       <button class="control__button forward" (click)="incrementPage()">></button>
     </div>
   </div>
-  <button class="page__button">Добавить акцию</button>
+  <button class="page__button" (click)="addItem()">Добавить акцию</button>
 
   <table *ngIf="this.products.length">
     <tr>
@@ -34,12 +34,14 @@
     </tr>
     <tr
       *ngFor="
-        let item of products
+        let i = index;
+        let item;
+        of: products
           | slice
             : this.itemsOnPageNumber * (this.pageNumber - 1)
             : this.pageNumber * this.itemsOnPageNumber
       "
-      (click)="setModal(item.brand.name, item.name, item.volume, item.price)"
+      (click)="setModal(item.brand.name, item.name, item.volume, item.price, i)"
     >
       <td>
         <input
@@ -69,8 +71,11 @@
   <span *ngIf="!this.products.length" class="no_items">Здесь пока нет товаров</span>
 </div>
 
-<modal
-  *ngIf="this.isModalOpened"
-  [activeItem]="activeItem"
-  (closeModalWindow)="closeModal()"
-></modal>
+<div class="modal-overlay" *ngIf="isModalOpened">
+  <modal
+    [activeItem]="activeItem"
+    (saveNewData)="recieveData($event)"
+    (closeModalWindow)="closeModal()"
+    (deleteItem)="removeItem()"
+  ></modal>
+</div>

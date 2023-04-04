@@ -1,6 +1,12 @@
 @use '../../../styles/color-variables.scss' as colorVar;
 @import '../../../styles/mixins.scss';
 form {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  background: white;
+  left: 0;
+  z-index: 1000;
   width: fit-content;
   .buttons {
     display: flex;
