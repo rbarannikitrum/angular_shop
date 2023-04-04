@@ -53,9 +53,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
           this.products.length / this.settingsForm.get('itemsPerPage')?.value
         );
       });
-    this.settingsForm.get('itemsPerPage')?.valueChanges.subscribe(() => {
-      this.maxPage = Math.ceil(this.products.length / this.settingsForm.get('itemsPerPage')?.value);
-    });
+    this.settingsForm
+      .get('itemsPerPage')
+      ?.valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.maxPage = Math.ceil(
+          this.products.length / this.settingsForm.get('itemsPerPage')?.value
+        );
+      });
   }
 
   ngOnDestroy(): void {
