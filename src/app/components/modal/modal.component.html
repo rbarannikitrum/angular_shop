@@ -1,6 +1,6 @@
 <form class="container" [formGroup]="infoForm" *ngIf="this.infoForm">
   <div class="buttons">
-    <button class="remove" (click)="deleteItemFromModal()">Удалить</button>
+    <button class="remove" (click)="closeModal()">Удалить</button>
     <button class="save" (click)="getNewData()">Сохранить</button>
   </div>
   <div class="input__container">

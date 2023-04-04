@@ -13,15 +13,11 @@ export class ModalComponent implements OnInit {
 
   @Output() closeModalWindow = new EventEmitter<void>();
 
-  @Output() saveNewData = new EventEmitter();
+  @Output() saveNewData = new EventEmitter<ActiveItem>();
 
-  @Output() deleteItem = new EventEmitter();
+  @Output() deleteItem = new EventEmitter<void>();
 
   public infoForm: FormGroup;
-
-  closeModal(): void {
-    this.closeModalWindow.emit();
-  }
 
   ngOnInit() {
     this.infoForm = new FormGroup({
@@ -32,17 +28,18 @@ export class ModalComponent implements OnInit {
     });
   }
 
+  closeModal(): void {
+    if (this.activeItem) this.deleteItem.emit();
+    else this.closeModalWindow.emit();
+  }
+
   public getNewData() {
     const newData = {
-      company: this.infoForm.controls['company'].value,
-      item: this.infoForm.controls['item'].value,
+      brandName: this.infoForm.controls['company'].value,
+      itemName: this.infoForm.controls['item'].value,
       volume: this.infoForm.controls['volume'].value,
       price: this.infoForm.controls['price'].value
     };
     this.saveNewData.emit(newData);
-  }
-
-  public deleteItemFromModal() {
-    this.deleteItem.emit(null);
   }
 }

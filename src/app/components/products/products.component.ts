@@ -23,8 +23,6 @@ export class ProductsComponent implements OnInit, DoCheck {
 
   public mainCheckboxState = false;
 
-  public selectedProducts: Array<Product>;
-
   public idList: Array<string> = [];
 
   public isDeleteOpened = false;
@@ -35,30 +33,21 @@ export class ProductsComponent implements OnInit, DoCheck {
 
   private activeIndex = -1;
 
-  @HostListener('document:click', ['$event'])
-  onClick(event: MouseEvent): void {
-    const isClickedInside = this.elRef.nativeElement.contains(event.target);
-    if (!isClickedInside) {
-      this.closeModal();
-    }
-  }
-
   @HostListener('document:keydown.escape', ['$event'])
-  onEscKeydown(event: KeyboardEvent) {
+  onEscKeydown() {
     this.closeModal();
   }
 
   ngOnInit(): void {
     this.productsService.getProducts().subscribe((res: ServerResponse) => {
       this.products = res.data;
-      console.log(res);
-      this.maxPage = Math.round(this.products.length / this.itemsOnPageNumber);
+      this.maxPage = Math.ceil(this.products.length / this.itemsOnPageNumber);
     });
   }
 
   ngDoCheck() {
     if (this.products.length)
-      this.maxPage = Math.round(this.products.length / this.itemsOnPageNumber);
+      this.maxPage = Math.ceil(this.products.length / this.itemsOnPageNumber);
   }
 
   public incrementPage() {
@@ -83,16 +72,12 @@ export class ProductsComponent implements OnInit, DoCheck {
     event.stopPropagation();
     this.isDeleteOpened = true;
     const currentItem = this.idList.findIndex((item) => item === id);
-    console.log(currentItem);
-
     if (currentItem !== -1 && !event.target.checked) {
       this.idList.splice(currentItem, 1);
       console.log(this.idList);
       return;
     }
-
     this.idList.push(id);
-    console.log(this.idList);
   }
 
   public deleteItems() {
@@ -123,14 +108,14 @@ export class ProductsComponent implements OnInit, DoCheck {
 
   public recieveData(event: any) {
     if (this.activeIndex !== -1) {
-      this.products[this.activeIndex].brand.name = event.company;
-      this.products[this.activeIndex].name = event.item;
+      this.products[this.activeIndex].brand.name = event.brandName;
+      this.products[this.activeIndex].name = event.itemName;
       this.products[this.activeIndex].volume = event.volume;
       this.products[this.activeIndex].price = event.price;
     } else
       this.products.push({
-        brand: { name: event.company },
-        name: event.item,
+        brand: { name: event.brandName },
+        name: event.itemName,
         volume: event.volume,
         price: event.price,
         id: `${Math.random() * 1000000}`
