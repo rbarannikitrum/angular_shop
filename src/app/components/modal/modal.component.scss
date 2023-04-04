@@ -51,6 +51,7 @@ form {
         border-radius: 8px;
         border: 1px solid #d0d3da;
         outline: none;
+        @include defaultFont;
       }
       input:focus {
         border: 1px solid colorVar.$activeColor;
