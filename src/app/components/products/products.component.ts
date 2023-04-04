@@ -49,23 +49,23 @@ export class ProductsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ServerResponse) => {
         this.products = res.data;
-        this.maxPage = Math.ceil(
-          this.products.length / this.settingsForm.get('itemsPerPage')?.value
-        );
+        this.getMaxPage();
       });
     this.settingsForm
       .get('itemsPerPage')
       ?.valueChanges.pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        this.maxPage = Math.ceil(
-          this.products.length / this.settingsForm.get('itemsPerPage')?.value
-        );
+        this.getMaxPage();
       });
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(null);
     this.destroy$.complete();
+  }
+
+  private getMaxPage() {
+    this.maxPage = Math.ceil(this.products.length / this.settingsForm.get('itemsPerPage')?.value);
   }
 
   public incrementPage() {
@@ -95,7 +95,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
     const currentItem = this.idList.findIndex((item) => item === id);
     if (currentItem !== -1 && !event.target.checked) {
       this.idList.splice(currentItem, 1);
-      console.log(this.idList);
       return;
     }
     this.idList.push(id);
@@ -104,6 +103,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   public deleteItems() {
     this.products = this.products.filter((el) => !this.idList.includes(el.id));
     this.idList = [];
+    this.getMaxPage();
   }
 
   public setModal(
