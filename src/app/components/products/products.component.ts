@@ -69,7 +69,6 @@ export class ProductsComponent implements OnInit, DoCheck {
   }
 
   public setRemoving(id: string, event: any) {
-    event.stopPropagation();
     this.isDeleteOpened = true;
     const currentItem = this.idList.findIndex((item) => item === id);
     if (currentItem !== -1 && !event.target.checked) {
