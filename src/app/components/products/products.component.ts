@@ -38,7 +38,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject();
 
-  @HostListener('document:keydown.escape', ['$event'])
+  @HostListener('document:keydown.escape')
   onEscKeydown() {
     this.closeModal();
   }
@@ -69,15 +69,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   public incrementPage() {
-    let currentPage = this.settingsForm.get('currentPage')?.value;
+    const currentPage = this.settingsForm.get('currentPage')?.value;
     this.settingsForm.get('currentPage')?.value < this.maxPage &&
-      this.settingsForm.controls['currentPage'].setValue(currentPage++);
+      this.settingsForm.controls['currentPage'].setValue(currentPage + 1);
   }
 
   public decrementPage() {
-    let currentPage = this.settingsForm.get('currentPage')?.value;
+    const currentPage = this.settingsForm.get('currentPage')?.value;
     this.settingsForm.get('currentPage')?.value > 1 &&
-      this.settingsForm.controls['currentPage'].setValue(currentPage--);
+      this.settingsForm.controls['currentPage'].setValue(currentPage - 1);
   }
 
   public changeMainCheckbox(event: any) {
