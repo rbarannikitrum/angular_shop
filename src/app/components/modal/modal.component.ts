@@ -1,4 +1,5 @@
 /* eslint-disable @angular-eslint/component-selector */
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActiveItem } from 'src/app/dto/active-item.dto';
@@ -6,7 +7,15 @@ import { ActiveItem } from 'src/app/dto/active-item.dto';
 @Component({
   selector: 'modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss']
+  styleUrls: ['./modal.component.scss'],
+  animations: [
+    trigger('expandedModal', [
+      transition(':enter', [
+        style({ 'margin-left': '-700px' }),
+        animate('0.5s ease-out', style({ 'margin-left': '0' }))
+      ])
+    ])
+  ]
 })
 export class ModalComponent implements OnInit {
   @Input() activeItem: ActiveItem;

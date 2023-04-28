@@ -1,4 +1,4 @@
-<form class="container" [formGroup]="infoForm" *ngIf="this.infoForm">
+<form [formGroup]="infoForm" *ngIf="this.infoForm" [@expandedModal]>
   <div class="buttons">
     <button class="remove" (click)="closeModal()">Удалить</button>
     <button class="save" (click)="getNewData()">Сохранить</button>
