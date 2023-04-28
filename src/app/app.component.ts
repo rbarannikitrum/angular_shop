@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavButton } from './dto/nav-button.dto';
+import { NavbarComponent } from 'ui-kit';
 
 @Component({
   selector: 'app-root',

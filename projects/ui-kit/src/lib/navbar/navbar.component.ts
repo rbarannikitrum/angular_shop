@@ -1,12 +1,16 @@
-/* eslint-disable @angular-eslint/component-selector */
 import { Component, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/internal/operators/takeUntil';
-import { NavButton } from '../../dto/nav-button.dto';
+import { Subject, takeUntil } from 'rxjs';
+
+interface NavButton {
+  labelText: string;
+  route: string;
+  isActive: boolean;
+  iconPath: string;
+}
 
 @Component({
-  selector: 'navbar',
+  selector: 'lib-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })

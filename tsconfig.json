@@ -20,6 +20,11 @@
     "module": "ES2022",
     "useDefineForClassFields": false,
     "strictPropertyInitialization": false,
+    "paths": {
+      "ui-kit": [
+        "dist/ui-kit"
+      ]
+    },
     "lib": ["ES2022", "dom"]
   },
   "angularCompilerOptions": {
