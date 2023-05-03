@@ -10,7 +10,6 @@ import { BannersComponent } from './components/banners/banners.component';
 import { BrandsComponent } from './components/brands/brands.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { CitiesComponent } from './components/cities/cities.component';
-import { ModalComponent } from './components/modal/modal.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { ProductsComponent } from './components/products/products.component';
 import { PromocodesComponent } from './components/promocodes/promocodes.component';
@@ -32,7 +31,6 @@ import { StopPropagationDirective } from './directives/stop-propagation.directiv
     BannersComponent,
     SeminarsComponent,
     PromocodesComponent,
-    ModalComponent,
     StopPropagationDirective
   ],
   imports: [

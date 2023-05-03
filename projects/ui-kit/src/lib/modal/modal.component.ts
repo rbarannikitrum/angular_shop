@@ -1,11 +1,16 @@
-/* eslint-disable @angular-eslint/component-selector */
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActiveItem } from 'src/app/dto/active-item.dto';
+
+interface ActiveItem {
+  brandName: string;
+  itemName: string;
+  volume: string;
+  price: number;
+}
 
 @Component({
-  selector: 'modal',
+  selector: 'lib-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
   animations: [

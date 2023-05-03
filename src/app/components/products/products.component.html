@@ -74,10 +74,10 @@
 </div>
 
 <div class="modal-overlay" *ngIf="isModalOpened" (click)="closeModal()"></div>
-<modal
+<lib-modal
   *ngIf="isModalOpened"
   [activeItem]="activeItem"
   (saveNewData)="recieveData($event)"
   (closeModalWindow)="closeModal()"
   (deleteItem)="removeItem()"
-></modal>
+></lib-modal>
