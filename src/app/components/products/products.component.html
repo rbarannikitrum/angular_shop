@@ -20,30 +20,29 @@
       <button class="control__button forward" (click)="incrementPage()">></button>
     </div>
   </form>
-  <button class="page__button" (click)="addItem()">Добавить акцию</button>
+  <button class="page__button" (click)="addItem()">{{ buttonText }}</button>
 
-  <table *ngIf="this.products.length">
+  <table *ngIf="this.data.length">
     <tr>
       <th>
         <input type="checkbox" (click)="changeMainCheckbox($event)" />
       </th>
-      <th>Компания</th>
-      <th>Товар</th>
-      <th>Объем</th>
-      <th>Цена</th>
+      <ng-container *ngFor="let header of headers">
+        <th>{{ header }}</th>
+      </ng-container>
     </tr>
     <tr
       *ngFor="
         let i = index;
         let item;
-        of: products
+        of: data
           | slice
             : this.settingsForm.get('itemsPerPage')?.value *
                 (this.settingsForm.get('currentPage')?.value - 1)
             : this.settingsForm.get('currentPage')?.value *
                 this.settingsForm.get('itemsPerPage')?.value
       "
-      (click)="setModal(item.brand.name, item.name, item.volume, item.price, i)"
+      (click)="setModal(item, i)"
     >
       <td>
         <input
@@ -70,7 +69,7 @@
     </button>
   </div>
 
-  <span *ngIf="!this.products.length" class="no_items">Здесь пока нет товаров</span>
+  <span *ngIf="!this.data.length" class="no_items">Здесь пока нет товаров</span>
 </div>
 
 <div class="modal-overlay" *ngIf="isModalOpened" (click)="closeModal()"></div>

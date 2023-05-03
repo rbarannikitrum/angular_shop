@@ -1,13 +1,7 @@
+/* eslint-disable no-prototype-builtins */
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-
-interface ActiveItem {
-  brandName: string;
-  itemName: string;
-  volume: string;
-  price: number;
-}
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'lib-modal',
@@ -23,37 +17,67 @@ interface ActiveItem {
   ]
 })
 export class ModalComponent implements OnInit {
-  @Input() activeItem: ActiveItem;
+  @Input() activeItem: any = {};
 
   @Output() closeModalWindow = new EventEmitter<void>();
 
-  @Output() saveNewData = new EventEmitter<ActiveItem>();
+  @Output() saveNewData = new EventEmitter<any>();
 
   @Output() deleteItem = new EventEmitter<void>();
 
-  public infoForm: FormGroup;
+  public infoForm: FormGroup = new FormGroup({});
 
-  ngOnInit() {
-    this.infoForm = new FormGroup({
-      company: new FormControl(this.activeItem?.brandName || ''),
-      item: new FormControl(this.activeItem?.itemName || ''),
-      volume: new FormControl(this.activeItem?.volume || ''),
-      price: new FormControl(this.activeItem?.price || '', Validators.pattern('^[0-9]*$'))
-    });
-  }
+  public activeItemData: any;
 
-  closeModal(): void {
+  public formArray: any;
+
+  public closeModal(): void {
     if (this.activeItem) this.deleteItem.emit();
     else this.closeModalWindow.emit();
   }
 
+  ngOnInit(): void {
+    if (this.activeItem) {
+      this.formArray = this.getObjectEntries(this.activeItem);
+    } else
+      this.formArray = [
+        ['name', ''],
+        ['brand.name', ''],
+        ['volume', ''],
+        ['price', '']
+      ];
+    this.infoForm = this.createFormGroup(this.formArray);
+  }
+
   public getNewData() {
-    const newData = {
-      brandName: this.infoForm.controls['company'].value,
-      itemName: this.infoForm.controls['item'].value,
-      volume: this.infoForm.controls['volume'].value,
-      price: this.infoForm.controls['price'].value
-    };
+    const newData = this.infoForm.getRawValue();
     this.saveNewData.emit(newData);
+  }
+
+  private getObjectEntries(obj: any) {
+    let entries: any = [];
+
+    Object.entries(obj).forEach(([key, value]) => {
+      if (typeof value === 'object' && value !== null) {
+        entries = entries.concat(
+          this.getObjectEntries(value).map(([subKey, subValue]: [any, any]) => [
+            `${key}.${subKey}`,
+            subValue
+          ])
+        );
+      } else {
+        entries.push([key, value]);
+      }
+    });
+
+    return entries;
+  }
+
+  private createFormGroup(arr: any): FormGroup {
+    arr.forEach(([key, value]: [any, any]) => {
+      const control = new FormControl(value);
+      this.infoForm.addControl(key, control);
+    });
+    return this.infoForm;
   }
 }

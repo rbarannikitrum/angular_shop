@@ -1,21 +1,27 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
-import { ActiveItem } from 'src/app/dto/active-item.dto';
-import { Product } from 'src/app/dto/product.dto';
-import { ServerResponse } from 'src/app/dto/server-response';
-import { ProductsService } from 'src/app/services/products.service';
 
 @Component({
   selector: 'products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
-export class ProductsComponent implements OnInit, OnDestroy {
-  constructor(private productsService: ProductsService, private elRef: ElementRef) {}
+export class ProductsComponent implements OnInit, OnChanges, OnDestroy {
+  @Input() buttonText = '';
 
-  public products: Array<Product>;
+  @Input() data: Array<any>;
+
+  @Input() headers: Array<string>;
 
   public maxPage = 1000;
 
@@ -27,7 +33,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   public isModalOpened = false;
 
-  public activeItem: ActiveItem;
+  public activeItem: Array<string | number>;
 
   public settingsForm: FormGroup = new FormGroup({
     itemsPerPage: new FormControl(10),
@@ -44,13 +50,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.productsService
-      .getProducts()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((res: ServerResponse) => {
-        this.products = res.data;
-        this.getMaxPage();
-      });
     this.settingsForm
       .get('itemsPerPage')
       ?.valueChanges.pipe(takeUntil(this.destroy$))
@@ -59,13 +58,17 @@ export class ProductsComponent implements OnInit, OnDestroy {
       });
   }
 
+  ngOnChanges(): void {
+    this.getMaxPage();
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next(null);
     this.destroy$.complete();
   }
 
   private getMaxPage() {
-    this.maxPage = Math.ceil(this.products.length / this.settingsForm.get('itemsPerPage')?.value);
+    this.maxPage = Math.ceil(this.data.length / this.settingsForm.get('itemsPerPage')?.value);
   }
 
   public incrementPage() {
@@ -87,7 +90,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       return;
     }
     this.isDeleteOpened = true;
-    this.products.map((el) => this.idList.push(el.id));
+    this.data.map((el) => this.idList.push(el.id));
   }
 
   public setRemoving(id: string, event: any) {
@@ -101,24 +104,13 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   public deleteItems() {
-    this.products = this.products.filter((el) => !this.idList.includes(el.id));
+    this.data = this.data.filter((el) => !this.idList.includes(el.id));
     this.idList = [];
     this.getMaxPage();
   }
 
-  public setModal(
-    brandName: string,
-    itemName: string,
-    volume: string,
-    price: number,
-    index: number
-  ) {
-    this.activeItem = {
-      brandName: brandName,
-      itemName: itemName,
-      volume: volume,
-      price: price
-    };
+  public setModal(item: Array<string | number>, index: number) {
+    this.activeItem = Object.assign(item);
     this.activeIndex = index;
     this.isModalOpened = true;
   }
@@ -128,24 +120,23 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   public recieveData(event: any) {
+    console.log(event);
     if (this.activeIndex !== -1) {
-      this.products[this.activeIndex].brand.name = event.brandName;
-      this.products[this.activeIndex].name = event.itemName;
-      this.products[this.activeIndex].volume = event.volume;
-      this.products[this.activeIndex].price = event.price;
+      this.data[this.activeIndex] = { ...this.data[this.activeIndex], ...event };
     } else
-      this.products.push({
+      this.data.push({
         brand: { name: event.brandName },
         name: event.itemName,
         volume: event.volume,
         price: event.price,
         id: `${Math.random() * 1000000}`
       });
+    console.log(this.data);
     this.closeModal();
   }
 
   public removeItem() {
-    this.products = this.products.filter((el, i) => i !== this.activeIndex);
+    this.data = this.data.filter((el, i) => i !== this.activeIndex);
     this.closeModal();
   }
 

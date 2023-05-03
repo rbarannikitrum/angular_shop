@@ -3,24 +3,10 @@
     <button class="remove" (click)="closeModal()">Удалить</button>
     <button class="save" (click)="getNewData()">Сохранить</button>
   </div>
-  <div class="input__container">
+  <div class="input__container" *ngFor="let field of formArray">
     <div class="input__item">
-      <span>Компания</span>
-      <input formControlName="company" />
-    </div>
-    <div class="input__item">
-      <span>Товар</span>
-      <input formControlName="item" />
-    </div>
-
-    <div class="input__item">
-      <span>Объем</span>
-      <input formControlName="volume" />
-    </div>
-
-    <div class="input__item">
-      <span>Цена</span>
-      <input formControlName="price" />
+      <span>{{ field[0] }}</span>
+      <input [formControlName]="field[0]" [value]="field[1]" />
     </div>
   </div>
 </form>

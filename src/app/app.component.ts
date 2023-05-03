@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavButton } from './dto/nav-button.dto';
-import { NavbarComponent } from 'ui-kit';
+import { ProductsService } from './services/products.service';
+import { takeUntil } from 'rxjs';
+import { ServerResponse } from './dto/server-response';
 
 @Component({
   selector: 'app-root',
@@ -70,4 +72,17 @@ export class AppComponent {
       iconPath: '../../../assets/navbar/navbar_promocodes.svg'
     }
   ];
+
+  constructor(private productsService: ProductsService) {}
+
+  public products: any;
+
+  public headers = ['Бренд', 'Товар', 'Объем', 'Цена'];
+
+  ngOnInit(): void {
+    this.productsService.getProducts().subscribe((res: ServerResponse) => {
+      console.log(res.data);
+      this.products = res.data;
+    });
+  }
 }
