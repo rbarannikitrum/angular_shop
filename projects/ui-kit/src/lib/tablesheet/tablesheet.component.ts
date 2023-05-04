@@ -26,7 +26,7 @@ export class TablesheetComponent implements OnInit, OnChanges, OnDestroy {
 
   public isModalOpened = false;
 
-  public activeItem: Array<string | number>;
+  public activeItem: Array<string | number> | undefined;
 
   public settingsForm: FormGroup = new FormGroup({
     itemsPerPage: new FormControl(10),
@@ -43,7 +43,7 @@ export class TablesheetComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log(this.data, this.showingValues);
+    console.log(this.activeItem);
     this.settingsForm
       .get('itemsPerPage')
       ?.valueChanges.pipe(takeUntil(this.destroy$))
@@ -129,6 +129,7 @@ export class TablesheetComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public addItem() {
+    this.activeItem = undefined;
     this.isModalOpened = true;
   }
 }
