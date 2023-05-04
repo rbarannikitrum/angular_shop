@@ -19,6 +19,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class ModalComponent implements OnInit {
   @Input() activeItem: any = {};
 
+  @Input() headers: Array<string> = [];
+
+  @Input() showingValues: Array<string> = [];
+
   @Output() closeModalWindow = new EventEmitter<void>();
 
   @Output() saveNewData = new EventEmitter<any>();
@@ -39,13 +43,7 @@ export class ModalComponent implements OnInit {
   ngOnInit(): void {
     if (this.activeItem) {
       this.formArray = this.getObjectEntries(this.activeItem);
-    } else
-      this.formArray = [
-        ['name', ''],
-        ['brand.name', ''],
-        ['volume', ''],
-        ['price', '']
-      ];
+    } else this.formArray = this.headers.map((el) => [el, '']);
     this.infoForm = this.createFormGroup(this.formArray);
   }
 

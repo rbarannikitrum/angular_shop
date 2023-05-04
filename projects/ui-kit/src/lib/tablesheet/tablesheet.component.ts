@@ -53,18 +53,13 @@ export class TablesheetComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(): void {
+    this.idList = [];
     this.getMaxPage();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(null);
     this.destroy$.complete();
-  }
-
-  public showingValuesHelper(item: any, findString: string) {
-    const findArray = findString.split(', ');
-    findArray.forEach((el: string) => (item = item[el]));
-    return item;
   }
 
   private getMaxPage() {
@@ -123,14 +118,7 @@ export class TablesheetComponent implements OnInit, OnChanges, OnDestroy {
     console.log(event);
     if (this.activeIndex !== -1) {
       this.data[this.activeIndex] = { ...this.data[this.activeIndex], ...event };
-    } else
-      this.data.push({
-        brand: { name: event.brandName },
-        name: event.itemName,
-        volume: event.volume,
-        price: event.price,
-        id: `${Math.random() * 1000000}`
-      });
+    } else if (event) this.data = [...this.data, ...event];
     console.log(this.data);
     this.closeModal();
   }

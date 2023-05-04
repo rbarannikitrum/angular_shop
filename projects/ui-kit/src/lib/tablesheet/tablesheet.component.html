@@ -74,6 +74,8 @@
 <lib-modal
   *ngIf="isModalOpened"
   [activeItem]="activeItem"
+  [headers]="headers"
+  [showingValues]="showingValues"
   (saveNewData)="recieveData($event)"
   (closeModalWindow)="closeModal()"
   (deleteItem)="removeItem()"
