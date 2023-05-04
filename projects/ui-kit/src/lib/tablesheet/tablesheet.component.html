@@ -1,1 +1,80 @@
-<p>tablesheet works!</p>
+<div class="container">
+  <form class="wrapper" [formGroup]="settingsForm">
+    <div class="dropdown">
+      <label for="menuitems">Показывать</label>
+      <select name="menuitems" id="menuitems" formControlName="itemsPerPage">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+      </select>
+    </div>
+
+    <div class="page__block">
+      <label for="page_number">Страница</label>
+      <input value="1" formControlName="currentPage" />
+      <span>из {{ maxPage }}</span>
+    </div>
+
+    <div class="nav__buttons">
+      <button class="control__button back" (click)="decrementPage()"><</button>
+      <button class="control__button forward" (click)="incrementPage()">></button>
+    </div>
+  </form>
+  <button class="page__button" (click)="addItem()">{{ buttonText }}</button>
+
+  <table *ngIf="this.data.length">
+    <tr>
+      <th>
+        <input type="checkbox" (click)="changeMainCheckbox($event)" />
+      </th>
+      <ng-container *ngFor="let header of headers">
+        <th>{{ header }}</th>
+      </ng-container>
+    </tr>
+    <tr
+      *ngFor="
+        let i = index;
+        let item;
+        of: data
+          | slice
+            : this.settingsForm.get('itemsPerPage')?.value *
+                (this.settingsForm.get('currentPage')?.value - 1)
+            : this.settingsForm.get('currentPage')?.value *
+                this.settingsForm.get('itemsPerPage')?.value
+      "
+      (click)="setModal(item, i)"
+    >
+      <td>
+        <input
+          libStopPropagation
+          type="checkbox"
+          [checked]="this.mainCheckboxState"
+          (change)="setRemoving(item.id, $event)"
+        />
+      </td>
+      <ng-container *ngFor="let element of showingValues">
+        <td>{{ item | valuesHelper : element }}</td>
+      </ng-container>
+    </tr>
+  </table>
+
+  <div *ngIf="this.idList.length && isDeleteOpened" class="delete__container">
+    <img src="../../../assets/close.svg" class="close__button" (click)="isDeleteOpened = false" />
+    <span class="items__length">Количество выбранных позиций: {{ this.idList.length }}</span>
+    <button (click)="deleteItems()">
+      <img src="../../../assets/remove.svg" />
+      <span class="delete__label">Удалить</span>
+    </button>
+  </div>
+
+  <span *ngIf="!this.data.length" class="no_items">Здесь пока нет товаров</span>
+</div>
+
+<div class="modal-overlay" *ngIf="isModalOpened" (click)="closeModal()"></div>
+<lib-modal
+  *ngIf="isModalOpened"
+  [activeItem]="activeItem"
+  (saveNewData)="recieveData($event)"
+  (closeModalWindow)="closeModal()"
+  (deleteItem)="removeItem()"
+></lib-modal>

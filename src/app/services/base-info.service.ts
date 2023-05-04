@@ -1,16 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ServerResponse } from '../dto/server-response';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductsService {
+export class BaseInfoService {
   constructor(private http: HttpClient) {}
 
   private baseUrl = 'http://localhost:3001';
 
-  public getProducts() {
-    return this.http.get<ServerResponse>(this.baseUrl + '/products');
+  public getBaseInfo(route: string) {
+    return this.http.get<any>(this.baseUrl + route);
   }
 }

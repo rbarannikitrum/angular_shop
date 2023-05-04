@@ -11,7 +11,6 @@ import { BrandsComponent } from './components/brands/brands.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { CitiesComponent } from './components/cities/cities.component';
 import { OrdersComponent } from './components/orders/orders.component';
-import { ProductsComponent } from './components/products/products.component';
 import { PromocodesComponent } from './components/promocodes/promocodes.component';
 import { ProtocolsComponent } from './components/protocols/protocols.component';
 import { SeminarsComponent } from './components/seminars/seminars.component';
@@ -21,7 +20,6 @@ import { StopPropagationDirective } from './directives/stop-propagation.directiv
 @NgModule({
   declarations: [
     AppComponent,
-    ProductsComponent,
     UsersComponent,
     CategoriesComponent,
     CitiesComponent,

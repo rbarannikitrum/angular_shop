@@ -1,5 +1,10 @@
 <div style="display: flex; padding: 80px 100px; gap: 20px">
   <lib-navbar [buttonsArray]="buttonsArray"></lib-navbar>
-  <products [data]="products" [headers]="headers" [buttonText]="'добавить товар'"></products>
+  <lib-tablesheet
+    [data]="data"
+    [headers]="headers"
+    [buttonText]="buttonText"
+    [showingValues]="showingValues"
+  ></lib-tablesheet>
   <!-- <router-outlet></router-outlet> -->
 </div>

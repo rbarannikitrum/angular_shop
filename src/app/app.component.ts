@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { NavButton } from './dto/nav-button.dto';
-import { ProductsService } from './services/products.service';
-import { takeUntil } from 'rxjs';
 import { ServerResponse } from './dto/server-response';
+import { BaseInfoService } from './services/base-info.service';
+import { SettingsInfoService } from './services/settings-info.service';
 
 @Component({
   selector: 'app-root',
@@ -73,16 +74,40 @@ export class AppComponent {
     }
   ];
 
-  constructor(private productsService: ProductsService) {}
+  constructor(
+    private baseInfoService: BaseInfoService,
+    private settingsInfoService: SettingsInfoService,
+    private router: Router
+  ) {}
 
-  public products: any;
+  public data: any = [];
 
-  public headers = ['Бренд', 'Товар', 'Объем', 'Цена'];
+  public headers: Array<string> = [];
+
+  public buttonText = '';
+
+  public showingValues: Array<string> = [];
+
+  public getBaseData(type: string) {
+    return this.baseInfoService.getBaseInfo(type).subscribe((res: ServerResponse) => {
+      this.data = res.data;
+    });
+  }
+
+  public getSettings(type: string) {
+    return this.settingsInfoService.getBaseInfo(type).subscribe((res: any) => {
+      this.headers = res.headers;
+      this.buttonText = res.buttonText;
+      this.showingValues = res.showingValues;
+    });
+  }
 
   ngOnInit(): void {
-    this.productsService.getProducts().subscribe((res: ServerResponse) => {
-      console.log(res.data);
-      this.products = res.data;
+    this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        this.getBaseData(event.url);
+        this.getSettings(event.url);
+      }
     });
   }
 }
