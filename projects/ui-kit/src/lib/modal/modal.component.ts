@@ -1,6 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -16,7 +16,7 @@ import { FormControl, FormGroup } from '@angular/forms';
     ])
   ]
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent implements OnChanges {
   @Input() activeItem: any = {};
 
   @Input() headers: Array<string> = [];
@@ -40,7 +40,8 @@ export class ModalComponent implements OnInit {
     else this.closeModalWindow.emit();
   }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
+    console.log('trigger');
     if (this.activeItem) {
       this.formArray = this.getObjectEntries(this.activeItem);
     } else this.formArray = this.headers.map((el) => [el, '']);
