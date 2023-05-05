@@ -50,7 +50,23 @@ export class ModalComponent implements OnChanges {
 
   public getNewData() {
     const newData = this.infoForm.getRawValue();
-    this.saveNewData.emit(newData);
+    const values = Object.values(newData);
+    const result = {};
+    this.showingValues.forEach((key, index) => {
+      const subkeys = key.split(', ');
+      let obj: any = result;
+      subkeys.forEach((subkey: any, i) => {
+        if (!obj[subkey]) {
+          obj[subkey] = {};
+        }
+        if (i === subkeys.length - 1) {
+          obj[subkey] = values[index];
+        } else {
+          obj = obj[subkey];
+        }
+      });
+    });
+    this.saveNewData.emit(result);
   }
 
   private getObjectEntries(obj: any) {

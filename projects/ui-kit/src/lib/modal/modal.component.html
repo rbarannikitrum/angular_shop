@@ -1,7 +1,7 @@
 <form [formGroup]="infoForm" *ngIf="this.infoForm" [@expandedModal]>
   <div class="buttons">
-    <button class="remove" (click)="closeModal()">Удалить</button>
-    <button class="save" (click)="getNewData()">Сохранить</button>
+    <button type="button" class="remove" (click)="closeModal()">Удалить</button>
+    <button type="button" class="save" (click)="getNewData()">Сохранить</button>
   </div>
   <div class="input__container" *ngFor="let field of formArray">
     <div class="input__item">

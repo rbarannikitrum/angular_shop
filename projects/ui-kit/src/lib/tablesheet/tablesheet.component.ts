@@ -1,11 +1,20 @@
-import { Component, HostListener, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'lib-tablesheet',
   templateUrl: './tablesheet.component.html',
-  styleUrls: ['./tablesheet.component.scss']
+  styleUrls: ['./tablesheet.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TablesheetComponent implements OnInit, OnChanges, OnDestroy {
   @Input() buttonText = '';
@@ -118,9 +127,19 @@ export class TablesheetComponent implements OnInit, OnChanges, OnDestroy {
     console.log(event);
     if (this.activeIndex !== -1) {
       this.data[this.activeIndex] = { ...this.data[this.activeIndex], ...event };
-    } else if (event) this.data = [...this.data, ...event];
-    console.log(this.data);
+    } else if (event) {
+      let temp = { ...this.data[0] };
+      for (const key in temp) {
+        if (Object.prototype.hasOwnProperty.call(temp, key)) {
+          temp[key] = null;
+        }
+      }
+      temp = { ...temp, ...event };
+      this.data.push(temp);
+      console.log(this.data);
+    }
     this.closeModal();
+    this.getMaxPage();
   }
 
   public removeItem() {
