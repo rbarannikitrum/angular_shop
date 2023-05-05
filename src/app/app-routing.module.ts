@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { BannersComponent } from './components/banners/banners.component';
 import { BrandsComponent } from './components/brands/brands.component';
-import { CategoriesComponent } from './components/categories/categories.component';
 import { CitiesComponent } from './components/cities/cities.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { PromocodesComponent } from './components/promocodes/promocodes.component';
@@ -21,7 +20,7 @@ const routes: Routes = [
   },
   {
     path: 'categories',
-    component: CategoriesComponent
+    component: AppComponent
   },
   {
     path: 'cities',
